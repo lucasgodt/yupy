@@ -1,0 +1,27 @@
+<form #loginForm="ngForm" novalidate>
+<ion-card>
+  <ion-card-content>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input [(ngModel)]="account.email" type="email" name="email" #email="ngModel" required pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"></ion-input>
+    </ion-item>
+    <div padding *ngIf="email.invalid && email.dirty">
+      <span class="global__input-error">Email inválido</span>
+    </div>
+    <ion-item>
+      <ion-label floating>Senha</ion-label>
+      <ion-input [(ngModel)]="account.password" type="password" name="password" #password="ngModel" required pattern="(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$"></ion-input>
+    </ion-item>
+    <div padding *ngIf="password.invalid && password.dirty">
+      <span class="global__input-error">Senha inválida, deve ter pelo menos 6 caracteres e uma letra maiúscula</span>
+    </div>
+  </ion-card-content>
+  <ion-row class="login-form__buttons">
+    <div>
+      <button ion-button (click)="navigateToRegisterPage('RegisterPage')" color="secondary">Registre-se</button>
+      <button ion-button (click)="login()" [disabled]="loginForm.invalid">Login</button>
+      <!--<button ion-button (click)="navigateToPage('TabsPage')">Login</button>-->
+    </div>
+  </ion-row>
+</ion-card>
+</form>

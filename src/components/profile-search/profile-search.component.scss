@@ -1,0 +1,59 @@
+app-profile-search {
+  .container-hearder-image {
+  background-image: url('../../assets/img/background/30.jpg');
+  @include darkening-blend-mode;
+  height: 160px!important;
+  padding: 0;
+  position: relative;
+}
+
+.search-bar-bcg {
+  position: absolute;
+  top: 50px;
+  z-index: 2;
+  right: 0;
+  left: 0;
+
+  .searchbar-input {
+    background-color: theme-colors('mainColors', 'primary');
+    color: theme-colors('textColors', 'primary');
+  }
+}
+
+[search-bar-title] {
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+.card-img {
+    width: 130px;
+    height: 220px;
+    position: relative;
+    margin-right: 10px;
+}
+.social {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+[card-title] {
+    line-height: normal !important;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+[card-subtitle] {
+    margin: 0;
+}
+[card-body-text] {
+    padding-top: 20px;
+    margin-bottom: 25px;
+}
+.swiper-slide {
+    display: table;
+}
+.slide-zoom {
+    height: 220px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+}

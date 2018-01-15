@@ -1,0 +1,36 @@
+<!-- Generated template for the ProfileViewComponent component -->
+<!--<div class="profile-view__image-container">
+  <img class="profile-view__image" src="assets/img/profile-placeholder.png" alt="">
+</div>-->
+
+<div *ngIf="userProfile">
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label floating>Nome</ion-label>
+        <ion-input [value]="userProfile.firstName" [readonly]=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input [value]="userProfile.email" [readonly]=""></ion-input>
+      </ion-item>
+      <!--<ion-item>
+        <ion-label floating>Serviço</ion-label>
+        <ion-input [value]="userProfile.service" [readonly]=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Preço</ion-label>
+        <ion-input [value]="userProfile.preco" [readonly]=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Horário</ion-label>
+        <ion-input [value]="userProfile.horario" [readonly]=""></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Local</ion-label>
+        <ion-input [value]="userProfile.local" [readonly]=""></ion-input>
+      </ion-item>-->
+    </ion-card-content>
+  </ion-card>
+</div>
+<button ion-button *ngIf="!authUser" (click)="openChat(userProfile)" icon="chatbubble">Chat</button>

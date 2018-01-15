@@ -1,0 +1,46 @@
+<!-- Theme Search bars Field + header -->
+<ion-grid no-padding>
+  <ion-row>
+    <ion-col col-12>
+      <div background-size class="container-hearder-image">
+        <div class="search-bar-bcg">
+          <h2 search-bar-title>O que você precisa?</h2>
+          <!-- Barra de busca <ion-searchbar [(ngModel)]="query" (ionChange)="searchUser(query)"></ion-searchbar>
+        Substituir pelos serviços, dropbox-->
+        </div>
+      </div>
+    </ion-col>
+    <!-- List -->
+        <ion-grid no-padding>
+          <ion-row *ngIf="profileList?.length > 0">
+            <ion-col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 *ngFor="let profile of profileList">
+              <ion-card card-bcg text-left class="card" (click)="selectProfile(profile)"><!--(click)="onEvent('onItemClick', item.title, $event)">-->
+                <div left class="card-img">
+                  <img src="{{profile.avatar}}"/><!--Não funciona mais-->
+                </div>
+                <!--Card-content-->
+                <ion-card-content>
+                  <ion-card-title no-padding>
+                    <h2 card-title>{{profile.firstName}}</h2>
+                  </ion-card-title>
+                  <!--<h3 card-subtitle>{{profile.service}}</h3>-->
+                  <h3 card-subtitle>{{profile.email}}</h3>
+                  <p card-body-text>{{profile.description}}</p>
+                  <!---Social share-->
+                  <div right class="social">
+                    <ion-icon>
+                      <i icon-small class="icon-thumb-up"></i>
+                    </ion-icon>
+                    <ion-icon>
+                      <i icon-small class="icon-heart"></i>
+                    </ion-icon>
+                    <ion-icon>
+                      <i icon-small class="icon-share-variant"></i>
+                    </ion-icon>
+                  </div>
+
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>

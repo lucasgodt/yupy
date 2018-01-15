@@ -1,0 +1,31 @@
+<form #regForm="ngForm" novalidate>
+<ion-card>
+  <ion-card-content>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input [(ngModel)]="account.email" type="email" name="email" #email="ngModel" required pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"></ion-input>
+    </ion-item>
+    <div padding *ngIf="email.invalid && email.dirty">
+      <span class="global__input-error">Email inválido</span>
+    </div>
+    <ion-item>
+      <ion-label floating>Senha</ion-label>
+      <ion-input [(ngModel)]="account.password" type="password" name="password" #password="ngModel" required pattern="(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$"></ion-input>
+    </ion-item>
+    <div padding *ngIf="password.invalid && password.dirty">
+      <span class="global__input-error">Senha inválida, deve ter pelo menos 6 caracteres e uma letra maiúscula</span>
+    </div>
+    <!--<ion-item>
+      <ion-label floating>Repita a Senha</ion-label>
+      <ion-input type="password" name="password2" #password="ngModel" required pattern="(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$"></ion-input>
+    </ion-item>
+    <div padding *ngIf="password2 != password">
+      <span class="global__input-error">Senhas diferentes</span>
+    </div>-->
+    <!--TENHO QUE ATUALIZAR O PROFILE AO SE REGISTRAR-->
+  </ion-card-content>
+  <ion-row class="register-form__button">
+    <button ion-button (click)="register()" [disabled]="regForm.invalid">Registre-se</button>
+  </ion-row>
+</ion-card>
+</form>
