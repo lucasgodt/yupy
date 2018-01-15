@@ -50,29 +50,15 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   searchUser(query: string){
-    const trimmedQuery = query.trim();
-    //AQUI DEVO MELHORAR O ALGORITMO DE BUSCA
-    if(trimmedQuery === query){
-    //Salva na lista de problemas
-    this.need.description = query;
-    this.userProfile.needs.push(this.need);
-    this.saveProfile(this.userProfile);
-    //tirar o searchProfile(Função Teste)
-    this.data.searchProfile(query);
-    this.data.searchUser(query).subscribe(profiles =>{
-      console.log(profiles);
-      this.profileList = profiles;
-    })
-    this.need = {} as Need;
+
   }
-}
 
-ngOnInit(): void{
+  ngOnInit(): void{
 
-}
+  }
 
-ngOnDestroy(): void{
-  this.authenticatedUser$.unsubscribe();
-}
+  ngOnDestroy(): void{
+    this.authenticatedUser$.unsubscribe();
+  }
 
 }

@@ -1,4 +1,3 @@
-import { Need } from "../need/need.interface";
 import { Service } from "../service/service.interface";
 import { Rating } from '../rating/rating.interface';
 
@@ -9,13 +8,11 @@ export interface Profile {
   description:string;       //Filtragem colaborativa
   email: string;
   ratings: Rating[];
-  avatar: ImageBitmap;
-  needs: Need[];//Buscas    //Filtragem colaborativa
-  solvedNeeds: Need[];      //Filtragem colaborativa
-  friendsList?: Profile[];  //Filtragem colaborativa
+  avatar: ImageBitmap;      //Filtragem colaborativa
+  clientsList?: Profile[];  //Filtragem colaborativa
   albumMedia: any;          //Filtragem colaborativa
   $key?: string;
-  services: Service[];     //Filtragem de conteúdo
+  service: Service[];
   online: boolean;         //Filtragem de conteúdo
   responseTime: TimeRanges;   //Filtragem de conteúdo
 }

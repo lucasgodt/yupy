@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
+import { Categorie } from "../../models/categorie/categorie.interface";
 import { User } from 'firebase/app';
 import { database } from 'firebase';
 import { Profile } from '../../models/profile/profile.interface';
+import { Service } from '../../models/service/service.interface';
 import { AuthService } from '../auth/auth.service';
 import { ElasticSearch } from '../../models/elastic/elastic.interface';
 import "rxjs/add/operator/take";
@@ -18,6 +20,8 @@ import "rxjs/add/operator/mergeMap";
 @Injectable()
 export class DataService {
 
+  categorieObject: FirebaseObjectObservable<Categorie>
+
   profileObject: FirebaseObjectObservable<Profile>
 
   elasticObject: FirebaseObjectObservable<ElasticSearch>
@@ -30,19 +34,6 @@ export class DataService {
   //teste de busca pelo elasticSearch
   async searchProfile(query: string){
 
-    const elasticSearch = {
-      "q": query
-    };
-
-    this.elasticObject = this.database.object(`/search/request/`);
-
-    try{
-      await this.elasticObject.set(elasticSearch);
-      return this.elasticObject;
-    }catch(e){
-      console.error(e);
-      return this.elasticObject;
-    }
   }
 
   searchUser(need: string){
@@ -92,6 +83,29 @@ export class DataService {
       console.error(e);
       return false;
     }
+  }
+  //captura só a lista de usuários
+  getCategorieServices(categorieName:string): FirebaseListObservable<Service[]>{
+    return this.database.list(`/categories/${categorieName}/serviceList`);
+  }
+  //Captura uma categoria inteira e sua lista de usuários
+  getCategorie(categorieName:string){
+    this.categorieObject = this.database.object(`/categories/${categorieName}`, { preserveSnapshot: true });
+    console.log(this.categorieObject);
+    return this.categorieObject.take(1);
+  }
+  //Salva a categoria
+  async saveCategorie(categorie: Categorie){
+    this.categorieObject = this.database.object(`categories/${categorie.name}`);
+
+    try {
+      await this.categorieObject.set(categorie);
+      return true;
+    }catch(e){
+      console.error(e);
+      return false;
+    }
+
   }
 
 }

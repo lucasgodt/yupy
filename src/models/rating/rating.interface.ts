@@ -6,4 +6,5 @@ export interface Rating{
   rating: number;
   valuation: string;
   service: Service;
+  solved: Boolean;
 }

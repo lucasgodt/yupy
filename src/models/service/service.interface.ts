@@ -1,10 +1,13 @@
 import { Rating } from '../rating/rating.interface';
+import { Profile } from '../profile/profile.interface';
 
 export interface Service{
+  $key?: string;
   description:string;
   local: string;
-  price: number;
-  time:  TimeRanges;
+  precoMedio: number;
+  horarioServico:  TimeRanges;
   rating: Rating[];
-  albumMedia?: any;
+  albumMedia?: any; //Muito importante
+  profile: Profile;
 }
