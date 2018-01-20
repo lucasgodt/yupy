@@ -12,7 +12,7 @@ export interface Profile {
   clientsList?: Profile[];  //Filtragem colaborativa
   albumMedia: any;          //Filtragem colaborativa
   $key?: string;
-  service: Service[];
+  services: Service[];
   online: boolean;         //Filtragem de conteúdo
   responseTime: TimeRanges;   //Filtragem de conteúdo
 }

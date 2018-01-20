@@ -1,5 +1,6 @@
 import { Component, OnDestroy, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { NavController, NavParams } from 'ionic-angular';
 import { User } from 'firebase/app';
 import { Profile } from '../../models/profile/profile.interface';
 import { DataService } from '../../providers/data/data.service';
@@ -23,7 +24,7 @@ export class EditProfileFormComponent implements OnInit, OnDestroy {
 
   @Input() profile: Profile;
 
-  constructor(private auth: AuthService, private data: DataService) {
+  constructor(private auth: AuthService, private data: DataService, private navCtrl: NavController, private navParams: NavParams) {
     this.saveProfileResult = new EventEmitter<Boolean>();
     this.authenticatedUser$ = this.auth.getAuthenticatedUser().subscribe((user: User) => {
       this.authenticatedUser = user
@@ -39,11 +40,13 @@ export class EditProfileFormComponent implements OnInit, OnDestroy {
 
   createService(){
     //CRIA SERVIÇO!!!!!
+    this.navCtrl.push('NewServicePage',{existingProfile: this.profile});
   }
 
   ngOnInit(): void{
     if(!this.profile){
       this.profile = {} as Profile;
+      this.profile.services = [];
     }
   }
 

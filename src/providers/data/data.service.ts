@@ -94,9 +94,13 @@ export class DataService {
     console.log(this.categorieObject);
     return this.categorieObject.take(1);
   }
+  //cria uma nova categoria
+  async setCategorie(categorie: Categorie){
+    await this.database.list('/categories').push(categorie);
+  }
   //Salva a categoria
   async saveCategorie(categorie: Categorie){
-    this.categorieObject = this.database.object(`categories/${categorie.name}`);
+    this.categorieObject = this.database.object(`/categories/${categorie.name}`);
 
     try {
       await this.categorieObject.set(categorie);

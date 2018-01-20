@@ -1,0 +1,32 @@
+<ion-card>
+  <ion-card-content>
+    <!--<ion-item>
+      <ion-label floating>Escolha sua foto</ion-label>
+      <ion-input [(ngModel)]="profile.avatar" type="text"></ion-input>
+    </ion-item>-->
+    <ion-item>
+      <ion-label floating>Descrição</ion-label>
+      <ion-input [(ngModel)]="service.description" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Local</ion-label>
+      <ion-input [(ngModel)]="service.local" type="text"></ion-input>
+    </ion-item>
+    <!--<ion-item>
+      <ion-label floating>Serviço</ion-label>
+      <ion-input [(ngModel)]="profile.service" type="text"></ion-input>
+    </ion-item>-->
+    <ion-item>
+      <ion-label floating>Preço Médio</ion-label>
+      <ion-input [(ngModel)]="service.precoMedio" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+    <ion-label>Categoria</ion-label>
+    <ion-select #C (ionChange)="selectCategorie(C.value)">
+      <ion-option value="alimentacao">Alimentação</ion-option>
+      <ion-option value="automoveis">Automóveis</ion-option>
+    </ion-select>
+  </ion-item>
+  </ion-card-content>
+</ion-card>
+<button ion-button (click)="saveService()">Salvar e Publicar</button>
