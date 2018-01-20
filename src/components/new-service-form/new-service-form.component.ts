@@ -7,6 +7,7 @@ import { Categorie } from '../../models/categorie/categorie.interface';
 import { Service } from '../../models/service/service.interface';
 import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
+import { FirebaseListObservable } from 'angularfire2/database';
 /**
  * Generated class for the EditProfileFormComponent component.
  *
@@ -22,6 +23,8 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   private authenticatedUser$: Subscription;
   private selectCategorie$: Subscription;
   private authenticatedUser: User;
+
+  //categoriesList: FirebaseListObservable<Categorie[]>;
 
   @Output() saveServiceResult: EventEmitter<Boolean>;
 
@@ -40,34 +43,55 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
     })
   }
 
-  selectCategorie(name: string){
+  async selectCategorie(name: string){
 
-    this.selectCategorie$ = this.data.getCategorie(name).subscribe(categorie => {
+    //Não está funcionando, não está capturando a categoria, categoria indefinida, função assíncrona?
+    //Não esta conseguindo pegar pelo nome, ou está?
+    //Parece que retorna sim um objeto, só não estou sabendo lidar com  FirebaseObjectObservable
+    this.selectCategorie$ = await this.data.getCategorie(name).subscribe(categorie => {
         this.categorie = categorie;
-        console.log(this.categorie);
+        console.log(categorie);
     });
 
-    if(this.categorie){
+    /*this.categoriesList = this.data.getCategories();
+    console.log("Lista de categorias:");
+    console.log(this.categoriesList.take(1));
+    for (let categorie of this.categoriesList){
+
+    }*/
+
+
+    if(this.categorie.name){
+      console.log("Categoria Selecionada");
       this.selectedCategorie = true;
+      console.log("Chave:");
+      console.log(this.categorie.$key);
     }else{
+      console.log("Categoria inexistente");
       this.toast.create({
               message: "Categoria inexistente, criando categoria...",
               duration: 3000
-            }).present();;
-      this.categorie.name = this.categorieName;
+            }).present();
+      this.categorie.name = name;
       this.categorie.serviceList = [];
       this.data.setCategorie(this.categorie);
+      this.selectedCategorie = true;
     }
+
 
   }
 
   async saveService(){
 
+    //this.selectCategorie(this.categorieName);
+
     if(this.selectedCategorie){
       this.profile.services.push(this.service);
       this.service.profile = this.profile;
+      //ERRO AQUI
+      console.log(this.service)
+      console.log(this.profile)
       this.categorie.serviceList.push(this.service);
-
       if(this.authenticatedUser){
         const resultProfile = await this.data.saveProfile(this.authenticatedUser, this.profile);
         const resultCategorie = await this.data.saveCategorie(this.categorie);

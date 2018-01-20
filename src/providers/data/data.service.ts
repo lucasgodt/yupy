@@ -54,7 +54,6 @@ export class DataService {
 
   getProfile(user: User){
     this.profileObject = this.database.object(`/profiles/${user.uid}`, { preserveSnapshot: true });
-
     return this.profileObject.take(1);
   }
 
@@ -84,6 +83,10 @@ export class DataService {
       return false;
     }
   }
+  //Captura uma categoria inteira e sua lista de usuários
+  getCategories(){
+    return this.database.list(`categories`);
+  }
   //captura só a lista de usuários
   getCategorieServices(categorieName:string): FirebaseListObservable<Service[]>{
     return this.database.list(`/categories/${categorieName}/serviceList`);
@@ -91,12 +94,15 @@ export class DataService {
   //Captura uma categoria inteira e sua lista de usuários
   getCategorie(categorieName:string){
     this.categorieObject = this.database.object(`/categories/${categorieName}`, { preserveSnapshot: true });
-    console.log(this.categorieObject);
+    console.log("Objeto:");
+    console.log(this.categorieObject.take(1));
     return this.categorieObject.take(1);
   }
   //cria uma nova categoria
   async setCategorie(categorie: Categorie){
-    await this.database.list('/categories').push(categorie);
+    //await this.database.list('/categories').push(categorie);
+    const categorieRef = database().ref(`/categories/`+categorie.name+`/`);
+    await categorieRef.set(categorie)
   }
   //Salva a categoria
   async saveCategorie(categorie: Categorie){

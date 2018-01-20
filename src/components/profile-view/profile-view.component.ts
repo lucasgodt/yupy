@@ -44,6 +44,7 @@ export class ProfileViewComponent implements OnInit {
     this.authUser = true;
     this.data.getAuthenticatedUserProfile().subscribe(profile => {
       this.userProfile = profile;
+      this.userProfile.services = [];
       this.existingProfile.emit(this.userProfile);
       this.authenticatedUser.emit(this.authUser);
 

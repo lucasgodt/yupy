@@ -23,6 +23,7 @@
     <ion-item>
     <ion-label>Categoria</ion-label>
     <ion-select #C (ionChange)="selectCategorie(C.value)">
+    <!--<ion-select [(ngModel)]="categorieName">-->  
       <ion-option value="alimentacao">Alimentação</ion-option>
       <ion-option value="automoveis">Automóveis</ion-option>
     </ion-select>
