@@ -23,7 +23,6 @@ import { FirebaseObjectObservable } from 'angularfire2/database';
 export class NewServiceFormComponent implements OnInit, OnDestroy {
 
   private authenticatedUser$: Subscription;
-  private selectCategorie$: Subscription;
   private authenticatedUser: User;
 
   categorieObs: FirebaseObjectObservable<any>;
@@ -48,55 +47,51 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
     })
   }
 
-  async selectCategorie(name: string){
+ selectCategorie(name: string){
 
-    //Não está funcionando, não está capturando a categoria, categoria indefinida, função assíncrona?
-    //Não esta conseguindo pegar pelo nome, ou está?
-    //Parece que retorna sim um objeto, só não estou sabendo lidar com  FirebaseObjectObservable
-    /*this.selectCategorie$ = await this.data.getCategorie(name).subscribe(categorie => {
-        this.categorie = categorie;
-        console.log(categorie);
-    });*/
-
-    this.categorieObs = await this.data.getCategorie(name);
+    this.categorieObs = this.data.getCategorie(name);
 
     this.categorieObs.subscribe(snapshot => {
         this.categorie = snapshot.val();
         console.log("A categoria é: ",this.categorie);
+        this.checkCategorie(name);
     });
 
-    //BLZA! JÀ TA BUSCANDO, falta cuidar da assíncronidade,o if executa antes do código buscar a categoria
+  }
+
+  checkCategorie(name: string){
 
     if(this.categorie.name){
       console.log("Categoria Selecionada");
       this.selectedCategorie = true;
-      console.log("Chave:");
-      console.log(this.categorie.$key);
+      if(!this.categorie.serviceList){
+        this.categorie.serviceList = [];
+      }
     }else{
       console.log("Categoria inexistente");
       this.toast.create({
               message: "Categoria inexistente, criando categoria...",
               duration: 3000
             }).present();
+      console.log("DANDO PAU AQUI");
       this.categorie.name = name;
+      console.log("TESTE");
       this.categorie.serviceList = [];
       this.data.setCategorie(this.categorie);
       this.selectedCategorie = true;
     }
 
-
   }
 
   async saveService(){
 
-    //this.selectCategorie(this.categorieName);
-
     if(this.selectedCategorie){
+
+      //services do profile está sendo instanciado novamente
+
+
       this.profile.services.push(this.service);
-      this.service.profile = this.profile;
-      //ERRO AQUI
-      console.log(this.service)
-      console.log(this.profile)
+      this.service.profileId = this.profile.$key;
       this.categorie.serviceList.push(this.service);
       if(this.authenticatedUser){
         const resultProfile = await this.data.saveProfile(this.authenticatedUser, this.profile);
@@ -123,7 +118,6 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void{
     this.authenticatedUser$.unsubscribe();
-    this.selectCategorie$.unsubscribe();
   }
 
 }

@@ -9,5 +9,5 @@ export interface Service{
   horarioServico:  TimeRanges;
   rating: Rating[];
   albumMedia?: any; //Muito importante
-  profile: Profile;
+  profileId: string;
 }
