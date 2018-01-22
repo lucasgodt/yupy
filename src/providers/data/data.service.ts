@@ -94,9 +94,7 @@ export class DataService {
   //Captura uma categoria inteira e sua lista de usuários
   getCategorie(categorieName:string){
     this.categorieObject = this.database.object(`/categories/${categorieName}`, { preserveSnapshot: true });
-    console.log("Objeto:");
-    console.log(this.categorieObject.take(1));
-    return this.categorieObject.take(1);
+    return this.categorieObject;
   }
   //cria uma nova categoria
   async setCategorie(categorie: Categorie){

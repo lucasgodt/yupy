@@ -1,5 +1,6 @@
 import { Component, OnDestroy, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { User } from 'firebase/app';
 import { Profile } from '../../models/profile/profile.interface';
@@ -8,6 +9,7 @@ import { Service } from '../../models/service/service.interface';
 import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
 import { FirebaseListObservable } from 'angularfire2/database';
+import { FirebaseObjectObservable } from 'angularfire2/database';
 /**
  * Generated class for the EditProfileFormComponent component.
  *
@@ -24,12 +26,15 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   private selectCategorie$: Subscription;
   private authenticatedUser: User;
 
-  //categoriesList: FirebaseListObservable<Categorie[]>;
+  categorieObs: FirebaseObjectObservable<any>;
 
   @Output() saveServiceResult: EventEmitter<Boolean>;
 
   @Input() profile: Profile;
 
+  //categorieObs: Observable<Categorie>
+
+  private categories: Categorie[];
   private categorie: Categorie;
   private service: Service;
   private selectedCategorie: Boolean;
@@ -48,18 +53,19 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
     //Não está funcionando, não está capturando a categoria, categoria indefinida, função assíncrona?
     //Não esta conseguindo pegar pelo nome, ou está?
     //Parece que retorna sim um objeto, só não estou sabendo lidar com  FirebaseObjectObservable
-    this.selectCategorie$ = await this.data.getCategorie(name).subscribe(categorie => {
+    /*this.selectCategorie$ = await this.data.getCategorie(name).subscribe(categorie => {
         this.categorie = categorie;
         console.log(categorie);
+    });*/
+
+    this.categorieObs = await this.data.getCategorie(name);
+
+    this.categorieObs.subscribe(snapshot => {
+        this.categorie = snapshot.val();
+        console.log("A categoria é: ",this.categorie);
     });
 
-    /*this.categoriesList = this.data.getCategories();
-    console.log("Lista de categorias:");
-    console.log(this.categoriesList.take(1));
-    for (let categorie of this.categoriesList){
-
-    }*/
-
+    //BLZA! JÀ TA BUSCANDO, falta cuidar da assíncronidade,o if executa antes do código buscar a categoria
 
     if(this.categorie.name){
       console.log("Categoria Selecionada");
