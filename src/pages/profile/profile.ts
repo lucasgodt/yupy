@@ -40,4 +40,9 @@ export class ProfilePage {
     this.authUser=auth;
   }
 
+
+  openChat(profile: Profile){
+    this.navCtrl.push('MessagePage',{ profile });
+  }
+
 }

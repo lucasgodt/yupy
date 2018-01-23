@@ -20,8 +20,6 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   query: string;
 
-  need: Need;
-
   profileList: Profile[]
 
   private authenticatedUser$: Subscription;

@@ -74,6 +74,7 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
               duration: 3000
             }).present();
       console.log("DANDO PAU AQUI");
+      this.categorie = {} as Categorie;
       this.categorie.name = name;
       console.log("TESTE");
       this.categorie.serviceList = [];
@@ -86,10 +87,9 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   async saveService(){
 
     if(this.selectedCategorie){
-
-      //services do profile está sendo instanciado novamente
-
-
+      if(!this.profile.services){
+        this.profile.services = [];
+      }
       this.profile.services.push(this.service);
       this.service.profileId = this.profile.$key;
       this.categorie.serviceList.push(this.service);

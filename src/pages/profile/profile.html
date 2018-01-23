@@ -27,4 +27,10 @@
   </button>
 </ion-fab>
 
+<ion-fab *ngIf="!authUser" #fab bottom right>
+  <button button-ion-fab ion-fab (click)="openChat(existingProfile)">
+    <ion-icon name="chatbubble"></ion-icon>
+  </button>
+</ion-fab>
+
 </ion-content>
