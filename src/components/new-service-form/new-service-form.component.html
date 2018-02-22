@@ -8,10 +8,10 @@
       <ion-label floating>Descrição</ion-label>
       <ion-input [(ngModel)]="service.description" type="text"></ion-input>
     </ion-item>
-    <ion-item>
+    <!--<ion-item>
       <ion-label floating>Local</ion-label>
       <ion-input [(ngModel)]="service.local" type="text"></ion-input>
-    </ion-item>
+    </ion-item>-->
     <!--<ion-item>
       <ion-label floating>Serviço</ion-label>
       <ion-input [(ngModel)]="profile.service" type="text"></ion-input>
@@ -23,7 +23,7 @@
     <ion-item>
     <ion-label>Categoria</ion-label>
     <ion-select #C (ionChange)="selectCategorie(C.value)">
-    <!--<ion-select [(ngModel)]="categorieName">-->  
+    <!--<ion-select [(ngModel)]="categorieName">-->
       <ion-option value="alimentacao">Alimentação</ion-option>
       <ion-option value="automoveis">Automóveis</ion-option>
     </ion-select>

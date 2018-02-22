@@ -31,21 +31,21 @@ export class DataService {
   constructor(private authService: AuthService, private database: AngularFireDatabase) {
   }
 
-  //teste de busca pelo elasticSearch
-  async searchProfile(query: string){
-
-  }
-
-  searchUser(need: string){
+  searchUser(uid: string){
     const query = this.database.list('/profiles',{
       query: {
         //AQUI EU FAÇO A BUSCA E ORDENO, DEVO ORDENAR DE ACORDO COM A ESCOLHA DO USUÁRIO
-        orderByChild: 'firstName',
-        equalTo: need
+        orderByChild: '$key',
+        equalTo: uid
       }
     })
 
     return query;
+  }
+
+  searchProfile(profileID: string){
+    this.profileObject = this.database.object(`/profiles/${profileID}`, { preserveSnapshot: true });
+    return this.profileObject;
   }
 
   getAuthenticatedUserProfile(){

@@ -50,12 +50,10 @@ export class ProfileViewComponent implements OnInit {
 
     })
 
-    }
-    this.loader.dismiss();
+  }else{
+    this.existingProfile.emit(this.userProfile);
   }
-
-  openChat(profile: Profile){
-    this.navCtrl.push('MessagePage',{ profile });
+    this.loader.dismiss();
   }
 
 }

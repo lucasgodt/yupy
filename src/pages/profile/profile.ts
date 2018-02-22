@@ -42,7 +42,7 @@ export class ProfilePage {
 
 
   openChat(profile: Profile){
-    this.navCtrl.push('MessagePage',{ profile });
+    this.navCtrl.push('MessagePage',{profile});
   }
 
 }

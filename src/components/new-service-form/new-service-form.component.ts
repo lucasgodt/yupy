@@ -8,7 +8,6 @@ import { Categorie } from '../../models/categorie/categorie.interface';
 import { Service } from '../../models/service/service.interface';
 import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
-import { FirebaseListObservable } from 'angularfire2/database';
 import { FirebaseObjectObservable } from 'angularfire2/database';
 /**
  * Generated class for the EditProfileFormComponent component.

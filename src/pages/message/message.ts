@@ -45,7 +45,7 @@ export class MessagePage {
 
    async sendMessage(content: string){
      try{
-
+       console.log("this.selectedProfile.$key")
        const message: Message = {
          userToId: this.selectedProfile.$key,
          userToProfile:{

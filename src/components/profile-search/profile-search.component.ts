@@ -1,10 +1,13 @@
 import { Component, Output, EventEmitter, Input, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../../providers/data/data.service';
 import { Profile } from '../../models/profile/profile.interface';
+import { Service } from '../../models/service/service.interface';
 import { AuthService } from '../../providers/auth/auth.service';
 import { User } from 'firebase/app';
 import { Subscription } from 'rxjs/Subscription';
 import { Need } from '../../models/need/need.interface';
+import { FirebaseObjectObservable } from 'angularfire2/database';
+import { Categorie } from '../../models/categorie/categorie.interface';
 
 /**
  * Generated class for the ProfileSearchComponent component.
@@ -20,12 +23,18 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   query: string;
 
-  profileList: Profile[]
+  serviceList: Service[]
+
+  categorieObs: FirebaseObjectObservable<any>;
+
+  categorie: Categorie;
 
   private authenticatedUser$: Subscription;
   private authenticatedUser: User;
 
   userProfile: Profile;
+
+  profileObserver: FirebaseObjectObservable<any>;
 
   @Output() selectedProfile: EventEmitter<Profile>;
 
@@ -43,11 +52,30 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectProfile(profile: Profile){
-    this.selectedProfile.emit(profile);
+  selectProfile(service: Service){
+    this.profileObserver = this.data.searchProfile(service.profileId);
+
+    this.profileObserver.subscribe(snapshot => {
+      this.userProfile = snapshot.val();
+      this.userProfile.$key = service.profileId;
+      this.selectedProfile.emit(this.userProfile);
+    });
   }
 
-  searchUser(query: string){
+  searchService(query: string){
+
+  }
+
+  updateProfileList(name: string){
+
+    this.categorieObs = this.data.getCategorie(name);
+
+    this.categorieObs.subscribe(snapshot => {
+        this.categorie = snapshot.val();
+        this.serviceList = this.categorie.serviceList;
+        console.log("Os serviços desta categoria são: ",this.serviceList);
+    });
+
 
   }
 

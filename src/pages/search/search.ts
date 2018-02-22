@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild  } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth/auth.service';
+import { DataService } from '../../providers/data/data.service';
 import { Profile } from '../../models/profile//profile.interface';
 import { AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from 'firebase/app';
-
+import { ProfileSearchComponent } from '../../components/profile-search/profile-search.component';
 /**
  * Generated class for the SearchPage page.
  *
@@ -27,13 +28,16 @@ export class SearchPage implements OnInit, OnDestroy {
   private authenticatedUser$: Subscription;
   private authenticatedUser: User;
 
-  constructor(private auth: AuthService, private navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController) {
+  @ViewChild(ProfileSearchComponent) searchComponent: ProfileSearchComponent;
+
+  constructor(private auth: AuthService, private navCtrl: NavController, private navParams: NavParams, public alertCtrl: AlertController, private data: DataService) {
     this.authenticatedUser$ = this.auth.getAuthenticatedUser().subscribe((user: User) => {
       this.authenticatedUser = user
     })
   }
 
   openProfile(profile: Profile){
+    console.log("Profile chave aberta",profile.$key);
     this.navCtrl.push('ProfilePage',{ profile });
   }
 
@@ -55,15 +59,15 @@ export class SearchPage implements OnInit, OnDestroy {
 
       alert.addInput({
         type: 'radio',
-        label: 'Mecânicos',
-        value: 'mecanicos',
+        label: 'Alimentação',
+        value: 'alimentacao',
       });
 
 
       alert.addInput({
         type: 'radio',
-        label: 'Eletricistas',
-        value: 'eletricistas',
+        label: 'Automoveis',
+        value: 'automoveis',
       });
 
       alert.addButton('Cancelar');
@@ -72,6 +76,8 @@ export class SearchPage implements OnInit, OnDestroy {
         handler: data => {
           this.radioOpen = false;
           this.radioResult = data;
+          console.log("Radioresult:",this.radioResult)
+          this.searchComponent.updateProfileList(this.radioResult);
         }
       });
 
@@ -79,6 +85,7 @@ export class SearchPage implements OnInit, OnDestroy {
         this.radioOpen = true;
       });
     }
+
 
     ngOnDestroy(): void{
       this.authenticatedUser$.unsubscribe();
