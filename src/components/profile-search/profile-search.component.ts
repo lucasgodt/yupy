@@ -6,7 +6,7 @@ import { AuthService } from '../../providers/auth/auth.service';
 import { User } from 'firebase/app';
 import { Subscription } from 'rxjs/Subscription';
 import { Need } from '../../models/need/need.interface';
-import { FirebaseObjectObservable } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 import { Categorie } from '../../models/categorie/categorie.interface';
 
 /**
@@ -25,7 +25,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   serviceList: Service[]
 
-  categorieObs: FirebaseObjectObservable<any>;
+  categorieObs: Observable<any>;
 
   categorie: Categorie;
 
@@ -34,7 +34,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   userProfile: Profile;
 
-  profileObserver: FirebaseObjectObservable<any>;
+  profileObserver: Observable<any>;
 
   @Output() selectedProfile: EventEmitter<Profile>;
 
@@ -56,7 +56,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.profileObserver = this.data.searchProfile(service.profileId);
 
     this.profileObserver.subscribe(snapshot => {
-      this.userProfile = snapshot.val();
+      this.userProfile = snapshot;
       this.userProfile.$key = service.profileId;
       this.selectedProfile.emit(this.userProfile);
     });
@@ -71,7 +71,7 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
     this.categorieObs = this.data.getCategorie(name);
 
     this.categorieObs.subscribe(snapshot => {
-        this.categorie = snapshot.val();
+        this.categorie = snapshot;
         this.serviceList = this.categorie.serviceList;
         console.log("Os serviços desta categoria são: ",this.serviceList);
     });

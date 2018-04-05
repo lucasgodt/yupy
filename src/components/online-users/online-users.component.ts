@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { DataService } from '../../providers/data/data.service';
-import { FirebaseListObservable } from 'angularfire2/database';
 import { Profile } from '../../models/profile/profile.interface';
+import { Observable } from 'rxjs/Observable';
 /**
  * Generated class for the OnlineUsersComponent component.
  *
@@ -15,7 +15,7 @@ import { Profile } from '../../models/profile/profile.interface';
 })
 export class OnlineUsersComponent implements OnInit{
 
-  userList: FirebaseListObservable<Profile[]>;
+  userList: Observable<Profile[]>;
 
   constructor(private navCtrl: NavController, private data: DataService) {
 

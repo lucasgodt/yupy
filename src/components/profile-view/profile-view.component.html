@@ -14,10 +14,14 @@
         <ion-label floating>Email</ion-label>
         <ion-input [value]="userProfile.email" [readonly]=""></ion-input>
       </ion-item>
-      <!--<ion-item>
-        <ion-label floating>Serviço</ion-label>
-        <ion-input [value]="userProfile.service" [readonly]=""></ion-input>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngFor="let servico of userProfile.services">
+    <ion-card-content>
+      <ion-item>
+        <ion-label floating>{{servico.description}}</ion-label>
       </ion-item>
+      <!--
       <ion-item>
         <ion-label floating>Preço</ion-label>
         <ion-input [value]="userProfile.preco" [readonly]=""></ion-input>

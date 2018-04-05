@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
@@ -18,20 +18,20 @@ import { AuthService } from '../auth/auth.service';
 @Injectable()
 export class ChatService {
 
-  constructor(private database: AngularFireDatabase, private auth: AuthService) {
+  constructor(private db: AngularFirestore, private auth: AuthService) {
 
   }
 
   async sendChat(message: Message){
-    await this.database.list('/messages').push(message);
+    await this.db.collection<any>('/messages').add(message);
   }
 
   getChats(userTwoId: string){
     return this.auth.getAuthenticatedUser().map(auth => auth.uid)
-        .mergeMap(uid => this.database.list(`/user-messages/${uid}/${userTwoId}`))
+        .mergeMap(uid => this.db.collection<any>(`/user-messages/${uid}/${userTwoId}`).valueChanges()) /*this.database.list(`/user-messages/${uid}/${userTwoId}`)*/
         .mergeMap(chats => {
           return Observable.forkJoin(
-            chats.map(chat => this.database.object(`/messages/${chat.$key}`)
+            chats.map(chat => this.db.doc<any>(`/messages/${chat.$key}`).valueChanges()
             .first()),
             (...vals: Message[]) => {
               return vals;

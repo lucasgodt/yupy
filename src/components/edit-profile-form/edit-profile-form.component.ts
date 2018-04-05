@@ -33,6 +33,7 @@ export class EditProfileFormComponent implements OnInit, OnDestroy {
 
   async saveProfile(){
     if(this.authenticatedUser){
+    this.profile.$key = this.authenticatedUser.uid;
     const result = await this.data.saveProfile(this.authenticatedUser, this.profile);
     this.saveProfileResult.emit(result);
     }

@@ -17,7 +17,7 @@
     </div>
     <!--<ion-item>
       <ion-label floating>Repita a Senha</ion-label>
-      <ion-input type="password" name="password2" #password="ngModel" required pattern="(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$"></ion-input>
+      <ion-input [(ngModel)]="password2" type="password" name="password2" #password2="ngModel" required pattern="(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$"></ion-input>
     </ion-item>
     <div padding *ngIf="password2 != password">
       <span class="global__input-error">Senhas diferentes</span>

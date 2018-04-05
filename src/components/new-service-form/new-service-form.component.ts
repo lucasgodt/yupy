@@ -8,7 +8,6 @@ import { Categorie } from '../../models/categorie/categorie.interface';
 import { Service } from '../../models/service/service.interface';
 import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
-import { FirebaseObjectObservable } from 'angularfire2/database';
 /**
  * Generated class for the EditProfileFormComponent component.
  *
@@ -24,7 +23,7 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   private authenticatedUser$: Subscription;
   private authenticatedUser: User;
 
-  categorieObs: FirebaseObjectObservable<any>;
+  categorieObs: Observable<any>;
 
   @Output() saveServiceResult: EventEmitter<Boolean>;
 
@@ -47,18 +46,16 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   }
 
  selectCategorie(name: string){
-
+   //CONSERTAR PARA PODER ADICIONAR CATEGORIAS SEM IR AO BANCO DE DADOS
     this.categorieObs = this.data.getCategorie(name);
-
-    this.categorieObs.subscribe(snapshot => {
-        this.categorie = snapshot.val();
-        console.log("A categoria é: ",this.categorie);
-        this.checkCategorie(name);
-    });
-
+      this.categorieObs.subscribe(snapshot => {
+          this.categorie = snapshot;
+          console.log("A categoria é: ",this.categorie);
+          this.setCategorie(name);
+      });
   }
 
-  checkCategorie(name: string){
+  setCategorie(name: string){
 
     if(this.categorie.name){
       console.log("Categoria Selecionada");
@@ -72,10 +69,8 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
               message: "Categoria inexistente, criando categoria...",
               duration: 3000
             }).present();
-      console.log("DANDO PAU AQUI");
       this.categorie = {} as Categorie;
       this.categorie.name = name;
-      console.log("TESTE");
       this.categorie.serviceList = [];
       this.data.setCategorie(this.categorie);
       this.selectedCategorie = true;
@@ -90,7 +85,7 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
         this.profile.services = [];
       }
       this.profile.services.push(this.service);
-      this.service.profileId = this.profile.$key;
+      this.service.profileId = this.authenticatedUser.uid;
       this.categorie.serviceList.push(this.service);
       if(this.authenticatedUser){
         const resultProfile = await this.data.saveProfile(this.authenticatedUser, this.profile);
