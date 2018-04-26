@@ -8,6 +8,8 @@ import { Categorie } from '../../models/categorie/categorie.interface';
 import { Service } from '../../models/service/service.interface';
 import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
+import { Camera , CameraOptions} from '@ionic-native/camera'
+import { ImageProvider } from '../../providers/image/image.service';
 /**
  * Generated class for the EditProfileFormComponent component.
  *
@@ -23,6 +25,15 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   private authenticatedUser$: Subscription;
   private authenticatedUser: User;
 
+  cameraOptions: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  };
+
+  private images = [];
+
   categorieObs: Observable<any>;
 
   @Output() saveServiceResult: EventEmitter<Boolean>;
@@ -37,7 +48,7 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   private selectedCategorie: Boolean;
   private categorieName: string;
 
-  constructor(private toast: ToastController ,private auth: AuthService, private data: DataService, private navCtrl: NavController, private navParams: NavParams) {
+  constructor(private toast: ToastController ,private auth: AuthService, private data: DataService, private navCtrl: NavController, private navParams: NavParams,private camera: Camera,private imageSrv: ImageProvider) {
     this.saveServiceResult = new EventEmitter<Boolean>();
     this.selectedCategorie = false;
     this.authenticatedUser$ = this.auth.getAuthenticatedUser().subscribe((user: User) => {
@@ -79,18 +90,21 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   }
 
   async saveService(){
-
+    //MODIFICAR PARA QUE O SERVICO SEJA SALVO DIRETO NA COLEÇÃO DO PROFILE E DA CATEGORIA PARA QUE O POSSA ACESSAR PELO SEU uid
     if(this.selectedCategorie){
       if(!this.profile.services){
         this.profile.services = [];
       }
-      this.profile.services.push(this.service);
+      //this.profile.services.push(this.service);
       this.service.profileId = this.authenticatedUser.uid;
-      this.categorie.serviceList.push(this.service);
+      this.service.$key = this.generateUUID();
+      //this.categorie.serviceList.push(this.service);
       if(this.authenticatedUser){
-        const resultProfile = await this.data.saveProfile(this.authenticatedUser, this.profile);
-        const resultCategorie = await this.data.saveCategorie(this.categorie);
-        const result = resultCategorie||resultCategorie;
+        //DEVE EXISTIR UM SAVE SERVICE QUE SÓ RECEBE O PROFILE, A CATEGORIA E O SERVICO A SER SALVO
+        //const resultProfile = await this.data.saveProfile(this.authenticatedUser, this.profile);
+        //const resultCategorie = await this.data.saveCategorie(this.categorie);
+        //const result = resultCategorie||resultCategorie;
+        const result =  await this.data.saveService(this.profile,this.categorie,this.service)
         this.saveServiceResult.emit(result);
       }
     }else{
@@ -113,5 +127,29 @@ export class NewServiceFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void{
     this.authenticatedUser$.unsubscribe();
   }
+
+  takePicture() {
+    this.camera.getPicture(this.cameraOptions)
+    .then(data => {
+      let base64Image = 'data:image/jpeg;base64,' + data;
+      return this.imageSrv.uploadImageToUser(base64Image, this.profile.$key);
+    })
+    .then(data => {
+      this.images.push(data.a.name);
+      localStorage.setItem('images', JSON.stringify(this.images));
+    });
+  }
+
+  private generateUUID(): string {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+  }
+
+
 
 }

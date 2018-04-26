@@ -9,6 +9,7 @@ export interface Profile {
   email: string;
   ratings: Rating[];
   avatar: ImageBitmap;      //Filtragem colaborativa
+  albumFotos?: string[];
   clientsList?: Profile[];  //Filtragem colaborativa
   albumMedia: any;          //Filtragem colaborativa
   $key?: string;

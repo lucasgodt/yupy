@@ -23,9 +23,9 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
 
   query: string;
 
-  serviceList: Service[]
+  serviceList: Service[];
 
-  categorieObs: Observable<any>;
+  //categorieObs: Observable<any>;
 
   categorie: Categorie;
 
@@ -67,15 +67,16 @@ export class ProfileSearchComponent implements OnInit, OnDestroy {
   }
 
   updateProfileList(name: string){
+    //Arrumar esta função, retornar a COLEÇÂO serviceList
+    //Criar getServiceList no data service!!!!!!
 
-    this.categorieObs = this.data.getCategorie(name);
-
-    this.categorieObs.subscribe(snapshot => {
-        this.categorie = snapshot;
-        this.serviceList = this.categorie.serviceList;
-        console.log("Os serviços desta categoria são: ",this.serviceList);
+    this.data.getServiceList(name).subscribe(snapshot => {
+        //this.categorie = snapshot;
+        this.serviceList = snapshot;
+        //this.serviceList = this.categorie
+        //this.serviceList = this.categorie.serviceList;
+        console.log("Lista de serviços: ",this.serviceList);
     });
-
 
   }
 

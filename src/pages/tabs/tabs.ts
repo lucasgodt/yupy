@@ -17,13 +17,13 @@ import { AuthService } from '../../providers/auth/auth.service';
 export class TabsPage {
 
   tab1root: string;
-  tab2root: string;
+  //tab2root: string;
   tab3root: string;
 
   constructor(private auth: AuthService, private navCtrl: NavController) {
 
     this.tab1root = 'SearchPage';
-    this.tab2root = 'InboxPage';
+    //this.tab2root = 'InboxPage';
     this.tab3root = 'ProfilePage';
 
   }

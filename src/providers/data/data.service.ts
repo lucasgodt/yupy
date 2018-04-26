@@ -25,6 +25,9 @@ export class DataService {
   private profileDoc: AngularFirestoreDocument<Profile>;
   profileObject: Observable<Profile>;
 
+  private serviceDoc: AngularFirestoreDocument<Service>;
+  serviceObject: Observable<Service>;
+
   private categorieDoc: AngularFirestoreDocument<Categorie>;
   categorieObject: Observable<Categorie>;
 
@@ -77,6 +80,18 @@ export class DataService {
     return this.profileObject;
   }
 
+  getServiceList(categorieName: string){
+    this.servicesCollection = this.db.collection("categories").doc<Categorie>(`/${categorieName}/`).collection<Service>(`serviceList`);
+    this.serviceList = this.servicesCollection.valueChanges();
+    return this.serviceList;
+  }
+
+  getUserServiceList(profile: Profile){
+    this.servicesCollection = this.db.collection("profiles").doc(`${profile.$key}`).collection("services");
+    this.serviceList = this.servicesCollection.valueChanges();
+    return this.serviceList;
+  }
+
   //MODIFICAR PARA O NOVO DATABASE
   setUserOnline(profile: Profile){
     const ref = database().ref(`online-users/${profile.$key}`);
@@ -93,6 +108,24 @@ export class DataService {
     this.profilesCollection = this.db.collection<Profile>('online-users');
     this.profileList = this.profilesCollection.valueChanges();
     return this.profileList;
+  }
+
+  async saveService(profile: Profile,categorie: Categorie, service: Service){
+    this.serviceDoc = this.db.doc<Service>(`/profiles/${profile.$key}/services/${service.$key}`);
+    try{
+      await this.serviceDoc.set(service);
+      this.serviceDoc = this.db.doc<Service>(`/categories/${categorie.name}/serviceList/${service.$key}`);
+      try{
+        await this.serviceDoc.set(service);
+        return true;
+      }catch(e){
+        console.error(e);
+        return false;
+      }
+    }catch(e){
+      console.error(e);
+      return false;
+    }
   }
 
   //MODIFICAR PARA O NOVO DATABASE

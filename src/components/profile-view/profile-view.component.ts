@@ -3,6 +3,7 @@ import { DataService } from '../../providers/data/data.service';
 import { AuthService } from '../../providers/auth/auth.service';
 import { User } from "firebase/app";
 import { Profile } from "../../models/profile/profile.interface";
+import { Service } from "../../models/service/service.interface";
 import { LoadingController, Loading } from "ionic-angular";
 import { NavParams, NavController } from 'ionic-angular';
 
@@ -19,6 +20,7 @@ import { NavParams, NavController } from 'ionic-angular';
 export class ProfileViewComponent implements OnInit {
 
   public userProfile: Profile;
+  private serviceList: Service[];
   public authUser: boolean = false;
   private loader: Loading;
 
@@ -39,20 +41,29 @@ export class ProfileViewComponent implements OnInit {
   ngOnInit(): void{
     this.loader.present();
     this.userProfile = this.nav.get('profile');
-    //Mudar para pegar navParams, o profile a ser mostrado será escolhido pela pagina anterior
+    //O profile a ser mostrado é escolhido pela pagina anterior
     if(!this.userProfile){
     this.authUser = true;
     this.data.getAuthenticatedUserProfile().subscribe(profile => {
-      this.userProfile = profile;
+        this.userProfile = profile;
+      });
+    this.data.getUserServiceList(this.userProfile).subscribe(data=>{
+        this.serviceList = data;
+        console.log("Lista de serviços: "+ this.serviceList)
+        console.log(this.serviceList)
+      })
       //this.userProfile.services = [];
-      this.existingProfile.emit(this.userProfile);
-      this.authenticatedUser.emit(this.authUser);
-
-    })
-
-  }else{
     this.existingProfile.emit(this.userProfile);
-  }
+    this.authenticatedUser.emit(this.authUser);
+
+    }else{
+    this.data.getUserServiceList(this.userProfile).subscribe(data=>{
+      this.serviceList = data;
+      console.log("Lista de serviços: "+ this.serviceList)
+      console.log(this.serviceList)
+    });
+    this.existingProfile.emit(this.userProfile);
+    }
     this.loader.dismiss();
   }
 

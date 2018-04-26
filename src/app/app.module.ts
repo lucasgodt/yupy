@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Camera } from '@ionic-native/camera';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -14,6 +15,7 @@ import { AuthService } from '../providers/auth/auth.service';
 import { DataService } from '../providers/data/data.service';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../providers/chat/chat.service';
+import { ImageProvider } from '../providers/image/image.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { ChatService } from '../providers/chat/chat.service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     DataService,
-    ChatService
+    ChatService,
+    Camera,
+    ImageProvider
   ]
 })
 export class AppModule {}

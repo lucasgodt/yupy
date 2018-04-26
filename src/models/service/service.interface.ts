@@ -9,6 +9,7 @@ export interface Service{
   precoMedio: number;
   horarioServico:  TimeRanges;
   rating: Rating[];
-  albumMedia?: any; //Muito importante
+  albumFotos?: string[];
+  albumVideos?: string[]; //Muito importante
   profileId: string;
 }
