@@ -17,10 +17,10 @@ import { ImageProvider } from '../../providers/image/image.service';
  * for more info on Angular Components.
  */
 @Component({
-  selector: 'app-new-service-form',
-  templateUrl: 'new-service-form.component.html'
+  selector: 'app-edit-service-form',
+  templateUrl: 'edit-service-form.component.html'
 })
-export class NewServiceFormComponent implements OnInit, OnDestroy {
+export class EditServiceFormComponent implements OnInit, OnDestroy {
 
   private authenticatedUser$: Subscription;
   private authenticatedUser: User;

@@ -46,21 +46,15 @@ export class ProfileViewComponent implements OnInit {
     this.authUser = true;
     this.data.getAuthenticatedUserProfile().subscribe(profile => {
         this.userProfile = profile;
+        this.data.getUserServiceList(this.userProfile).subscribe(data=>{
+            this.serviceList = data;
+          })
+        this.existingProfile.emit(this.userProfile);
+        this.authenticatedUser.emit(this.authUser);
       });
-    this.data.getUserServiceList(this.userProfile).subscribe(data=>{
-        this.serviceList = data;
-        console.log("Lista de serviços: "+ this.serviceList)
-        console.log(this.serviceList)
-      })
-      //this.userProfile.services = [];
-    this.existingProfile.emit(this.userProfile);
-    this.authenticatedUser.emit(this.authUser);
-
     }else{
     this.data.getUserServiceList(this.userProfile).subscribe(data=>{
       this.serviceList = data;
-      console.log("Lista de serviços: "+ this.serviceList)
-      console.log(this.serviceList)
     });
     this.existingProfile.emit(this.userProfile);
     }

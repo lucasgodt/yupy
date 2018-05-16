@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { NewServicePage } from './new-service';
+import { EditServicePage } from './edit-service';
 import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   declarations: [
-    NewServicePage,
+    EditServicePage,
   ],
   imports: [
-    IonicPageModule.forChild(NewServicePage),
+    IonicPageModule.forChild(EditServicePage),
     ComponentsModule,
   ],
   exports: [
-    NewServicePage,
+    EditServicePage,
   ]
 })
 export class MessagePageModule {}

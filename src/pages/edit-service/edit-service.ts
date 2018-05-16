@@ -13,10 +13,10 @@ import { DataService } from '../../providers/data/data.service';
 
 @IonicPage()
 @Component({
-  selector: 'new-service',
-  templateUrl: 'new-service.html',
+  selector: 'edit-service',
+  templateUrl: 'edit-service.html',
 })
-export class NewServicePage {
+export class EditServicePage {
 
   profile = {} as Profile;
 

@@ -8,7 +8,7 @@ import { ProfileSearchComponent } from './profile-search/profile-search.componen
 import { SendMessageBoxComponent } from './send-message-box/send-message-box.component';
 import { ChatMessageComponent } from './chat-message/chat-message.component';
 import { OnlineUsersComponent } from './online-users/online-users.component';
-import { NewServiceFormComponent } from './new-service-form/new-service-form.component';
+import { EditServiceFormComponent } from './edit-service-form/edit-service-form.component';
 
 @NgModule({
 	declarations: [LoginFormComponent,
@@ -19,7 +19,7 @@ import { NewServiceFormComponent } from './new-service-form/new-service-form.com
     SendMessageBoxComponent,
     ChatMessageComponent,
     OnlineUsersComponent,
-		NewServiceFormComponent,
+		EditServiceFormComponent,
 		],
 	imports: [IonicModule],
 	exports: [LoginFormComponent,
@@ -30,7 +30,7 @@ import { NewServiceFormComponent } from './new-service-form/new-service-form.com
     SendMessageBoxComponent,
     ChatMessageComponent,
     OnlineUsersComponent,
-		NewServiceFormComponent,
+		EditServiceFormComponent,
 		]
 })
 

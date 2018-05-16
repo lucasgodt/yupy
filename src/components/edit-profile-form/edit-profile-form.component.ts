@@ -41,7 +41,7 @@ export class EditProfileFormComponent implements OnInit, OnDestroy {
 
   createService(){
     //CRIA SERVIÇO!!!!!
-    this.navCtrl.push('NewServicePage',{existingProfile: this.profile});
+    this.navCtrl.push('EditServicePage',{existingProfile: this.profile});
   }
 
   ngOnInit(): void{
